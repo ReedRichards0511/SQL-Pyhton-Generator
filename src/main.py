@@ -2,6 +2,8 @@ from utils.file_selector import getExcelFile
 from sqlGenerators.catalogueType_generator import generateInsertCatalogueTypeSql
 from sqlGenerators.catalogue_generator import generateInsertCatalogueSql
 from sqlGenerators.market_catalogue_generator import generateMarketCatalogueInserts
+from sqlGenerators.catalogue_offer_generator import generateOfferInsertSQL
+from sqlGenerators.catalogue_offer_description import generateOfferDescriptionInsertSQL
 
 def main():
     filePath = getExcelFile()
@@ -11,6 +13,8 @@ def main():
         print("1. Catalogue Type")
         print("2. Catalogue")
         print("3. Market Catalogue")
+        print("4. Offer Catalogue")
+        print("5. Offer Description")
 
         choice = input("Ingrese su elección: ").upper()
 
@@ -43,7 +47,21 @@ def main():
             generateMarketCatalogueInserts(
                 schemaName, tableName, filePath, outputFileName + ".sql", market_id, start_id, db_connection_string
             )
-
-
+        elif choice == "4":
+            start_id = int(input("Ingrese el ID de inicio para Catalogue Type: "))
+            schemaName = input("Ingrese el nombre del esquema: ")
+            tableName = input("Ingrese el nombre de la tabla: ")
+            outputFileName = input("Ingrese el nombre del archivo SQL de salida: ")
+            market_id = int(input("Ingrese el ID del mercado: "))
+            generateOfferInsertSQL(schemaName, tableName, filePath, outputFileName + ".sql", start_id, market_id)
+            
+            
+        elif choice == "5":
+            schemaName = input("Ingrese el nombre del esquema: ")
+            tableName = input("Ingrese el nombre de la tabla: ")
+            outputFileName = input("Ingrese el nombre del archivo SQL de salida: ")
+            generateOfferDescriptionInsertSQL(schemaName, tableName, filePath, outputFileName + ".sql")
+            
+            
 if __name__ == "__main__":
     main()
